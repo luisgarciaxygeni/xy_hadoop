@@ -1,0 +1,24 @@
+name: Xygeni Scan
+on:
+  workflow_dispatch:  # Allows manual triggering
+  # no push triggers
+  # no pull request triggers
+  # no schedule triggers
+
+jobs:
+  xygeni-scan:
+    name: Xygeni Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for better relevancy of analysis
+
+      - name: Xygeni-Scanner
+        uses: xygeni/xygeni-action@v3.2.0
+        id: Xygeni-Scanner
+        with:
+          xygeni_url: https://api.xygeni.io
+          token: ${{ secrets.XY_TOKEN_PRO }}
+          gh_token: ${{ secrets.GH_PAT }}
+          command: scan --never-fail --skip="malware" -n ${{ github.repository }} -e **/scanner/**
