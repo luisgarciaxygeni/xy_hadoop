@@ -106,13 +106,13 @@ jobs:
           fetch-depth: '0'
 
 
-      - name: Check out repo A
-        uses: actions/checkout@v4
-        with:
-            repository: lgvorg1/xyware-goat
-            path: path_to_xyware.goat
-            ref: master
-            token: ${{ secrets.GH_PAT }}
+      #- name: Check out repo A
+      #  uses: actions/checkout@v4
+      #  with:
+      #      repository: lgvorg1/xyware-goat
+      #      path: path_to_xyware.goat
+      #      ref: master
+      #      token: ${{ secrets.GH_PAT }}
 
       # Runs a set of commands using the runners shell 
       - name: Download Xygeni Scanner 
