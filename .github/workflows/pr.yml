@@ -1,0 +1,76 @@
+name: PR CI
+
+on: 
+  pull_request: 
+    branches: [ main ]
+
+env:
+  MY_SECRET: ${{ secrets.MY_SECRET }}
+  GITHUB_PAT: ${{ secrets.GH_PAT }}
+  
+jobs:
+  pr_build_test_and_merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      # checkout PR code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Number of commits to fetch. 0 indicates all history for all branches and tags.
+          # Default: 1
+          fetch-depth: '0'
+          # This is to get the PR code instead of the repo code
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      # Simulation of a compilation
+      - name: Building ... 
+        run: |
+          echo $MY_SECRET
+          mkdir ./bin
+          touch ./bin/mybin.exe
+      
+      # Simulation of running tests
+      - name: Running tests ...
+        id : run_tests
+        run: |
+          echo Running tests..
+          chmod +x runtests.sh
+          cat ./runtests.sh
+          ./runtests.sh "${{ github.event.pull_request.user.login }}" "${{ github.workflow }}"
+          export ret_value=$?
+          echo ret_value $ret_value
+          cat runtests.out
+          echo Tests executed. 
+          echo "run_tests=OK" >> $GITHUB_OUTPUT
+          
+      #
+      # For demo purposes, the check merge condition will always be set to FALSE (avoiding to merge)
+      #
+      - name: pr_check_conditions_to_merge
+        id: check_pr
+        run: |
+          echo "check_conditions_to_merge"
+          echo "Checking conditions to merge PR with id ${{github.event.number}} and Title ${{github.event.pull_request.title}}" 
+          echo "merge=false" >> $GITHUB_OUTPUT
+      
+      - name: pr_merge_pr_false
+        if: steps.check_pr.outputs.merge == 'false'
+        run: |
+          echo "The merge check was ${{ steps.check_pr.outputs.merge }}"
+          echo "Merge conditions NOT MEET!!!"
+
+
+      - name: pr_merge_pr_true
+        if: steps.check_pr.outputs.merge == 'true' && steps.run_tests.outputs.run_tests == 'OK'
+        run: |
+          echo "The merge check for PR id $PR_ID was ${{ steps.check_pr.outputs.merge }}"
+          echo "Merge conditions successfully MEET!!!"
+          echo "Merging .."
+          curl -L \
+                  -X PUT \
+                  -H "Accept: application/vnd.github+json" \
+                  -H "Authorization: Bearer $GITHUB_PAT" \
+                  -H "X-GitHub-Api-Version: 2022-11-28" \
+                  https://api.github.com/repos/lgvorg1/"${{github.event.repository.name}}"/pulls/${{github.event.number}}/merge \
+                  -d '{"commit_title":"Expand enum","commit_message":"Add a new value to the merge_method enum"}'
