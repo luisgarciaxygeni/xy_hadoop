@@ -20,5 +20,12 @@ jobs:
     container:
       image: returntocorp/semgrep
     steps:
+    - name: Download Xygeni Scanner 
+        run: |
+          echo xxxxxxxx ....
+          mvn dependency:tree -DoutputFile=maven_dep_tree.txt
+          mvn clean package
+          ls -l maven_dep_tree.txt
+          exit 1
     - uses: actions/checkout@v4
     - run: semgrep ci
