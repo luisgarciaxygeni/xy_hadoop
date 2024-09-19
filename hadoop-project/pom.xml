@@ -69,7 +69,7 @@
     <jersey.version>1.19.4</jersey.version>
 
     <!-- jackson versions -->
-    <jackson2.version>2.12.7</jackson2.version>
+    <jackson2.version>2.17.2</jackson2.version>
     <jackson2.databind.version>2.12.7.1</jackson2.databind.version>
 
     <!-- httpcomponents versions -->
@@ -123,7 +123,7 @@
     <commons-codec.version>1.15</commons-codec.version>
     <commons-collections.version>3.2.2</commons-collections.version>
     <commons-compress.version>1.26.1</commons-compress.version>
-    <commons-csv.version>1.9.0</commons-csv.version>
+    <commons-csv.version>1.11.0</commons-csv.version>
     <commons-io.version>2.16.1</commons-io.version>
     <commons-lang3.version>3.12.0</commons-lang3.version>
     <commons-logging.version>1.2</commons-logging.version>
@@ -1561,7 +1561,7 @@
       <dependency>
         <groupId>javax.xml.bind</groupId>
         <artifactId>jaxb-api</artifactId>
-        <version>2.2.11</version>
+        <version>2.3.1</version>
       </dependency>
       <dependency>
         <groupId>org.codehaus.jettison</groupId>
