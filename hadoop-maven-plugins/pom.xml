@@ -26,7 +26,7 @@
   <packaging>maven-plugin</packaging>
   <name>Apache Hadoop Maven Plugins</name>
   <properties>
-    <maven.dependency.version>3.9.5</maven.dependency.version>
+    <maven.dependency.version>3.9.8</maven.dependency.version>
     <maven.plugin-tools.version>3.10.1</maven.plugin-tools.version>
     <plexus.classworlds.version>2.7.0</plexus.classworlds.version>
     <sisu.inject.version>0.3.5</sisu.inject.version>
