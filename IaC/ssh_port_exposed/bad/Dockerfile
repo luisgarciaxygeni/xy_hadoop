@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:24.10
 # ...
 RUN apt update && apt install  openssh-server sudo -y
 RUN mkdir -p /home/sshuser/.ssh
